@@ -94,3 +94,32 @@ export const agregarCursoService = (nombre, descripcion, fechaInicio, fechaFin, 
     }
     
 }
+
+export const buscarEstudianteService = (id) => {
+    try {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT id, id_cuenta FROM estudiantes WHERE id = ?';
+            database.query(query, [id], (err, res) => {
+                if(res){resolve(res)}
+                else{reject(err)}
+            })
+        })
+    } catch (error) {
+        
+    }
+}
+
+export const agregarAsistenciaService = (id, fecha, id_cuenta) => {
+    try {
+        return new Promise((resolve, reject) => {
+            const query = 'INSERT INTO asistencias (`id_estudiante`, `fecha`, `id_cuenta`) VALUES (?, ?, ?)';
+            database.query(query, [id, fecha, id_cuenta], (err, res) => {
+                if(res){resolve(res)}
+                else{reject(err)}
+            })
+        })
+    } catch (error) {
+        console.log(error)
+    }
+    
+}

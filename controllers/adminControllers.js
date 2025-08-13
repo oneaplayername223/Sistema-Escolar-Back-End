@@ -1,4 +1,4 @@
-import { adminInfoService, agregarProfesorService, agregarestudianteService, eliminarProfesorService, agregarCursoService } from "../services/adminServices.js"
+import {agregarAsistenciaService, buscarEstudianteService, adminInfoService, agregarProfesorService, agregarestudianteService, eliminarProfesorService, agregarCursoService } from "../services/adminServices.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 export const adminInfoController = async(req, res) =>{
@@ -83,11 +83,42 @@ export const agregarCursoController = async(req, res) => {
         const decode = jwt.decode(token, 'clave-secreta')
         const id_cuenta = decode.data[0]
         const data = await agregarCursoService(nombre, descripcion, fechaInicio, fechaFin, id_cuenta)
-        
+
         return res.status(200).json({mensaje: 'Curso creado exitosamente'})
         
     } catch (error) {
         return res.status(500).json({Errors: 'ha habido un error', error})
+        
+    }
+}
+
+
+export const agregarAsistenciaController = async (req, res) => {
+
+        const {id, fecha} = req.body
+        const data = await buscarEstudianteService(id)
+        const results = data[0]
+
+        if (!results){
+            return res.status(404).json({Error: 'Estudiante no encontrado'})
+        }
+
+        const id_cuenta = results.id_cuenta
+        console.log(id)
+
+    try {
+       const data =  agregarAsistenciaService(id, fecha, id_cuenta)
+        return res.json({mensaje: 'Asistencia creada exitosamente'})
+        
+    } catch (error) {
+        
+    }
+}
+
+export const verEstudiantesController = async(req, res) => {
+    try {
+        
+    } catch (error) {
         
     }
 }
