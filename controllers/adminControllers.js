@@ -27,7 +27,11 @@ try {
 export const agregarProfesorController = async(req, res) => {
     const {nombre, apellido, fechaNacimiento, celular, correo, carnet} = req.body
     try {
-        const data = await agregarProfesorService(nombre, apellido, fechaNacimiento, celular, correo, carnet)
+        const token = req.cookies.accessToken
+        const decode = jwt.decode(token, 'clave-secreta')
+        const id_cuenta = decode.data[0]
+        const encrypt = bcrypt.hashSync(carnet, 10)
+        const data = await agregarProfesorService(nombre, apellido, fechaNacimiento, celular, correo, carnet, id_cuenta, encrypt)
         return res.json(data)
         
         

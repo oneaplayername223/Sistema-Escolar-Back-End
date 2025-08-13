@@ -16,11 +16,16 @@ export const adminInfoService = () => {
 }
 
 
-export const agregarProfesorService = (nombre, apellido, fechaNacimiento, celular, correo, carnet) => {
+export const agregarProfesorService = (nombre, apellido, fechaNacimiento, celular, correo, carnet, id_cuenta, encrypt) => {
     try {
         return new Promise((resolve, reject) =>{
-            const query = 'INSERT INTO profesores (`nombre`, `apellido`, `fecha-nacimiento`, `celular`, `correo`, `carnet`) VALUES (?, ?, ?, ?, ?, ?)';
-            database.query(query, [nombre, apellido, fechaNacimiento, celular, correo, carnet], (err, res) =>{
+            const query = 'INSERT INTO profesores (`nombre`, `apellido`, `fecha-nacimiento`, `celular`, `correo`, `carnet`, `id_cuenta`) VALUES (?, ?, ?, ?, ?, ?, ?)';
+            const query2 = 'INSERT INTO usuarios (`nombre`, `usuario`, `clave`, `rol`, `id_cuenta`) VALUES (?, ?, ?, "profesor", ?)';
+            database.query(query, [nombre, apellido, fechaNacimiento, celular, correo, carnet, id_cuenta], (err, res) =>{
+                if(res){resolve(res)}
+                else{reject(err)}
+            })
+            database.query(query2, [nombre, correo, encrypt, id_cuenta], (err, res) =>{
                 if(res){resolve(res)}
                 else{reject(err)}
             })
@@ -36,7 +41,7 @@ export const agregarestudianteService = (nombre, apellido, fechaNacimiento, celu
     try {
         return new Promise((resolve, reject) => {
         const query = 'INSERT INTO estudiantes (`nombre`, `apellido`, `fecha-nacimiento`, `celular`, `correo`, `carnet`, `id_cuenta`) VALUES (?, ?, ?, ?, ?, ? , ?)';
-        const query2 = 'INSERT INTO usuarios (`nombre`, `usuario`, `clave`, `rol`) VALUES (?, ?, ?, "estudiante")';
+        const query2 = 'INSERT INTO usuarios (`nombre`, `usuario`, `clave`, `rol`, `id_cuenta`) VALUES (?, ?, ?, "estudiante", ?)';
 
         //query 1
         database.query(query, [nombre, apellido, fechaNacimiento, celular, correo, carnet, id_cuenta], (err, res) =>{
@@ -44,7 +49,7 @@ export const agregarestudianteService = (nombre, apellido, fechaNacimiento, celu
             else{reject(err)}
         })
         //query 2
-            database.query(query2, [nombre, correo, encrypt], (err, res) =>{
+            database.query(query2, [nombre, correo, encrypt, id_cuenta], (err, res) =>{
             if(res){resolve(res)}
             else{reject(err)}
         })
