@@ -37,10 +37,11 @@ if (results == null ){
 
 const compare = bcrypt.compareSync(clave, results.clave)
 const nombre = results.nombre
-const userData = [results.id, results.nombre, results.rol]
+const userData = [results.id, results.nombre, results.rol, results.id_cuenta]
 
 
-    if (compare){
+
+if (compare){
     const token = jwt.sign({ data: userData }, 'clave-secreta', {expiresIn: '1h'});  
     
 res.cookie('accessToken', token, {

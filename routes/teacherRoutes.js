@@ -5,6 +5,6 @@ const teacherRoutes = Router()
 
 
 teacherRoutes.get('/profesor/index', validateTeacherSession, getTeacherInfoController) 
-teacherRoutes.post('/profesor/agregar/cursos', validateTeacherSession, postTeacherHomeworkController)
+teacherRoutes.post('/profesor/agregar/tarea', validateTeacherSession, postTeacherHomeworkController)
 
 export default teacherRoutes
