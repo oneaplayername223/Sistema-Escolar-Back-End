@@ -10,7 +10,7 @@ export const adminInfoService = () => {
         })
         
     } catch (error) {
-        return console.log('servicios:', error)
+        return res.status(500).json({Error: 'ha habido un error', error})
         
     }
 }
@@ -32,7 +32,7 @@ export const agregarProfesorService = (nombre, apellido, fechaNacimiento, celula
         })
         
     } catch (error) {
-        return console.log('servicios:')
+        return res.status(500).json({Error: 'ha habido un error', error})
         
     }
 }
@@ -57,7 +57,7 @@ export const agregarestudianteService = (nombre, apellido, fechaNacimiento, celu
 })
         
     } catch (error) {
-       return console.log(error)
+        return res.status(500).json({Error: 'ha habido un error', error})
         
     }
 }
@@ -75,7 +75,7 @@ export const eliminarProfesorService = (id) => {
         })
         
     } catch (error) {
-        return console.log('Servicios:', error)
+        return res.status(500).json({Error: 'ha habido un error', error})
         
     }
 }
@@ -105,7 +105,8 @@ export const buscarEstudianteService = (id) => {
             })
         })
     } catch (error) {
-        
+        return res.status(500).json({Error: 'ha habido un error', error})
+
     }
 }
 
@@ -119,7 +120,40 @@ export const agregarAsistenciaService = (id, fecha, id_cuenta) => {
             })
         })
     } catch (error) {
-        console.log(error)
+        return res.status(500).json({Error: 'ha habido un error', error})
     }
     
+}
+
+export const verAsistenciasService = () => {
+    try {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM asistencias;';
+            database.query(query, (err, res) => {
+                if(res){resolve(res)}
+                else{reject(err)}
+            })
+        })
+    } catch (error) {
+        return res.status(500).json({Error: 'ha habido un error', error})
+    }
+
+    
+}
+
+export const buscarPorIdService = (id_estudiante) => {
+    try {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT nombre, apellido, carnet FROM estudiantes WHERE id = ?;';
+            database.query(query, [id_estudiante], (err, res) => {
+                if(res){resolve(res)}
+                else{reject(err)}
+            })
+          
+        })
+        
+    } catch (error) {
+        return res.status(500).json({Error: 'ha habido un error', error})
+        
+    }
 }

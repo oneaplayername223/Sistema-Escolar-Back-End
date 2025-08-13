@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {verEstudiantesController, agregarAsistenciaController, adminInfoController, agregarProfesorController, agregarestudianteController, eliminarProfesorController, agregarCursoController } from "../controllers/adminControllers.js";
+import {verAsistenciasController, agregarAsistenciaController, adminInfoController, agregarProfesorController, agregarestudianteController, eliminarProfesorController, agregarCursoController } from "../controllers/adminControllers.js";
 import { validateSession } from "../middlewares/validateSession.js";
 
 
@@ -8,7 +8,7 @@ const adminRoutes = Router()
 
 
 adminRoutes.get('/admin/index', validateSession, adminInfoController)
-adminRoutes.get('/admin/asistencias', validateSession, verEstudiantesController)
+adminRoutes.get('/admin/asistencias', validateSession, verAsistenciasController)
 adminRoutes.post('/admin/agregar/profesor', validateSession, agregarProfesorController)
 adminRoutes.post('/admin/agregar/estudiante', validateSession, agregarestudianteController)
 adminRoutes.post('/admin/agregar/curso', validateSession, agregarCursoController)

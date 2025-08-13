@@ -1,4 +1,4 @@
-import {agregarAsistenciaService, buscarEstudianteService, adminInfoService, agregarProfesorService, agregarestudianteService, eliminarProfesorService, agregarCursoService } from "../services/adminServices.js"
+import {buscarPorIdService, verAsistenciasService, agregarAsistenciaService, buscarEstudianteService, adminInfoService, agregarProfesorService, agregarestudianteService, eliminarProfesorService, agregarCursoService } from "../services/adminServices.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 export const adminInfoController = async(req, res) =>{
@@ -115,10 +115,18 @@ export const agregarAsistenciaController = async (req, res) => {
     }
 }
 
-export const verEstudiantesController = async(req, res) => {
+export const verAsistenciasController = async(req, res) => {
     try {
+        const data = await verAsistenciasService()
+        const results = data[0]
+        const id_estudiante = results.id_estudiante
+        const fecha = results.fecha
         
+        const infoEstudiante = await buscarPorIdService(id_estudiante)
+        res.status(200).json({Estudiante: infoEstudiante, Asistencia: fecha})
+
+    
     } catch (error) {
-        
+        res.status(500).json({Error: 'ha habido un error', error})
     }
 }
