@@ -15,7 +15,7 @@ database.connect((err, res) =>{
     return console.log('Error de Conexion')
    }
    else{
-    return console.log('base de datos conectada exitosamente')
+    return console.log('Base de Datos conectada exitosamente')
    }
 })
 

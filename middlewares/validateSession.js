@@ -9,17 +9,20 @@ export const validateSession = (req, res, next) => {
 
         
         const validate = jwt.verify(token, 'clave-secreta');
-        
-        if (validate){
+        const decode = jwt.decode(token, 'clave-secreta');
+        const verifyAdmin = decode.data[2]
+
+
+        if (validate && verifyAdmin === 'admin'){
             const decode = jwt.decode(token, 'clave-secreta');
-            const nombre = decode.data[1]
-            console.log('Bienvenid@,', nombre)
+            const nombre = [decode.data[0], decode.data[1], decode.data[2]]
+            console.log(nombre)
             return next()
         } else{
-            return console.log('token invalido')
+            return res.json({Error: 'token invalido'})
         }
         
     } catch (error) {
-        return res.json({error: 'ha habido un error', error})
+        return res.json({Error: 'ha habido un error', error})
     }
 }

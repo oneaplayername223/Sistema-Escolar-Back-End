@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 
 import loginRoutes from './routes/loginRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
-
+import userRoutes from './routes/userRoutes.js';
 const app = express()
 
 //middlewares
@@ -19,6 +19,7 @@ const port = 5000
 
 app.use(loginRoutes)
 app.use(adminRoutes)
+app.use(userRoutes)
 
 
 //port config
