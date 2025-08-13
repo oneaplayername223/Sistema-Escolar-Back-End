@@ -1,11 +1,14 @@
 import {buscarPorIdService, verAsistenciasService, agregarAsistenciaService, buscarEstudianteService, adminInfoService, agregarProfesorService, agregarestudianteService, eliminarProfesorService, agregarCursoService } from "../services/adminServices.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+
+
 export const adminInfoController = async(req, res) =>{
 try {
     const decode = jwt.decode(req.cookies.accessToken, 'clave-secreta')
-    //const userInfo = [decode.data[1], decode.data[2]]
-    const data = await adminInfoService()
+    const userInfo = decode.data[0]
+    
+    const data = await adminInfoService(userInfo)
    const results = data[0]
    if (results === null){
        return res.json({Usuario: decode.data[1], Profesores: 'no hay registros'})
@@ -116,17 +119,19 @@ export const agregarAsistenciaController = async (req, res) => {
 }
 
 export const verAsistenciasController = async(req, res) => {
-    try {
-        const data = await verAsistenciasService()
-        const results = data[0]
-        const id_estudiante = results.id_estudiante
-        const fecha = results.fecha
-        
-        const infoEstudiante = await buscarPorIdService(id_estudiante)
-        res.status(200).json({Estudiante: infoEstudiante, Asistencia: fecha})
+
+    const data = await buscarPorIdService()
+  
+   const id = data.map((item) => item)
+
+   const id_estudiante = id.map(item => item.id_estudiante)
+
+  res.json(id_estudiante)
+   
 
     
-    } catch (error) {
-        res.status(500).json({Error: 'ha habido un error', error})
-    }
+
+
+
+   
 }
