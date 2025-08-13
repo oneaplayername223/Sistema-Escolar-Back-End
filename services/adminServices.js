@@ -125,25 +125,35 @@ export const agregarAsistenciaService = (id, fecha, id_cuenta) => {
     
 }
 
-
-export const buscarPorIdService = (id_estudiante, userInfo) => {
-   try {
-    return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM asistencias';
-        database.query(query, (err, res) => {
-            if(res){resolve(res)}
-            else{reject(err)}
-        })
-    })
-    
-   } catch (error) {
-    return res.status(500).json({Error: 'ha habido un error', error})
-    
-   }
-}
-
 export const verAsistenciasService = (userInfo) => {
-   
+    try {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM asistencias WHERE id_cuenta = ?';
+            database.query(query, [userInfo], (err, res) => {
+                if(res){resolve(res)}
+                else{reject(err)}
+            })
+        })
+    } catch (error) {
+        return res.status(500).json({Error: 'ha habido un error', error})
+    }
+
     
 }
 
+export const buscarPorIdService = (userInfo) => {
+    try {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT nombre, apellido, carnet FROM estudiantes WHERE id_cuenta = ?';
+            database.query(query, [userInfo], (err, res) => {
+                if(res){resolve(res)}
+                else{reject(err)}
+            })
+          
+        })
+        
+    } catch (error) {
+        return res.status(500).json({Error: 'ha habido un error', error})
+        
+    }
+}

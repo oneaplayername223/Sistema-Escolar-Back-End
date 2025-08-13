@@ -120,18 +120,26 @@ export const agregarAsistenciaController = async (req, res) => {
 
 export const verAsistenciasController = async(req, res) => {
 
-    const data = await buscarPorIdService()
-  
-   const id = data.map((item) => item)
+    
+    try {
+        const decode = jwt.decode(req.cookies.accessToken, 'clave-secreta')
+        const userInfo = decode.data[0]
+        const data = await verAsistenciasService(userInfo)
 
-   const id_estudiante = id.map(item => item.id_estudiante)
+        const results = data[0]
 
-  res.json(id_estudiante)
-   
+        if (!results){
+            return res.status(404).json({Error: 'Estudiante no encontrado'})
+        }
+        const fecha = results.fecha
+        const id_estudiante = [results.id_estudiante]
+        
+        const infoEstudiante = await buscarPorIdService(userInfo)
+        const result = [infoEstudiante, fecha]
+        return res.json({result})
 
     
-
-
-
-   
+    } catch (error) {
+        res.status(500).json({Error: 'ha habido un error', error})
+    }
 }
