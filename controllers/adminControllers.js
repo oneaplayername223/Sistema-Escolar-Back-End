@@ -1,4 +1,4 @@
-import { adminInfoService, agregarProfesorService, agregarestudianteService, eliminarProfesorService } from "../services/adminServices.js"
+import { adminInfoService, agregarProfesorService, agregarestudianteService, eliminarProfesorService, agregarCursoService } from "../services/adminServices.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 export const adminInfoController = async(req, res) =>{
@@ -76,4 +76,18 @@ export const eliminarProfesorController = async(req, res) => {
 }
 
 
-
+export const agregarCursoController = async(req, res) => {
+    try {
+        const {nombre, descripcion, fechaInicio, fechaFin} = req.body
+        const token = req.cookies.accessToken
+        const decode = jwt.decode(token, 'clave-secreta')
+        const id_cuenta = decode.data[0]
+        const data = await agregarCursoService(nombre, descripcion, fechaInicio, fechaFin, id_cuenta)
+        
+        return res.status(200).json({mensaje: 'Curso creado exitosamente'})
+        
+    } catch (error) {
+        return res.status(500).json({Errors: 'ha habido un error', error})
+        
+    }
+}

@@ -79,3 +79,18 @@ export const eliminarProfesorService = (id) => {
         
     }
 }
+
+export const agregarCursoService = (nombre, descripcion, fechaInicio, fechaFin, id_cuenta) => {
+    try {
+        return new Promise((resolve, reject) => {
+            const query = 'INSERT INTO cursos (`nombre`, `descripcion`, `fecha-inicio`, `fecha-fin`, `id_cuenta`) VALUES (?, ?, ?, ?, ?)';
+            database.query(query, [nombre, descripcion, fechaInicio, fechaFin, id_cuenta], (err, res) => {
+                if(res){resolve(res)}
+                else{reject(err)}
+            })
+        })
+    } catch (error) {
+        return res.status(500).json({Error: 'ha habido un error', error})
+    }
+    
+}
