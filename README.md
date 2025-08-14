@@ -75,8 +75,9 @@ DB_PASS=
 DB_NAME=escuela</code></pre>
   </li>
   <li>Iniciar servidor:
-    <pre><code>npm start</code></pre>
+    <pre><code>npm start (o npm run dev)</code></pre>
   </li>
+  
 </ol>
 
 <hr>
