@@ -1,13 +1,27 @@
+//Services
+
 import { loginService, registerService } from "../services/loginServices.js"
+
+//Sependencies
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+
+//Schemes
+
+import registerSchema from "../schemas/registerSchema.js"
+import loginSchema from "../schemas/loginSchema.js"
 
 export const registerController = async(req, res) =>{
     try {
         const {nombre, usuario, clave, rol} = req.body
-        if(!nombre){
-            return res.json({error: 'No Hay Datos'})
+
+        const {error} = registerSchema(req.body)
+
+        if (error)
+        {
+            return res.status(400).json({Error: error.details[0].message})
         }
+
         const encrypt = bcrypt.hashSync(clave, 10)
         const data = await registerService(nombre, usuario, encrypt, rol)
         return res.json({mensaje: 'usuario creado exitosamente'})
@@ -23,8 +37,10 @@ export const loginController = async(req, res) =>{
 try {
 const {usuario, clave} = req.body
 
-if (!usuario || !clave){
-    return res.json({error: 'No Hay Datos'})
+const {error} = loginSchema(req.body)
+
+if(error){
+    return res.status(400).json({Error: error.details[0].message})
 }
 
 const data = await loginService(usuario)
@@ -62,7 +78,8 @@ res.cookie('accessToken', token, {
 
     } catch (error) {
 
-    return console.error(error)
+    console.log(error)
+    return res.status(500).json({Controllers: 'ha habido un error'})
     
 }
 }
