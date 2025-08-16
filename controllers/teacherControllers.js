@@ -1,5 +1,13 @@
+
+//Services
 import {postTeacherHomeworkService} from "../services/teacherServices.js";
+
+//Dependencies
 import jwt from "jsonwebtoken";
+
+//Schemes
+
+import postTeacherHomeworkSchema from "../schemas/postTeacherHomeworkSchema.js"
 
 export const getTeacherInfoController = (req, res) =>{
     return res.json({Cursos: 'no hay cursos'})
@@ -7,8 +15,10 @@ export const getTeacherInfoController = (req, res) =>{
 
 export const postTeacherHomeworkController = async(req, res) =>{
     const {nombre, descripcion} = req.body
-    if (!nombre || !descripcion) {
-        return res.json({error: 'No Hay Datos'})
+
+    const {error} = postTeacherHomeworkSchema(req.body)
+    if (error){
+        return res.status(400).json({Error: error.details[0].message})
     }
 
     const token = req.cookies.accessToken
