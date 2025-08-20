@@ -66,13 +66,9 @@ Este proyecto es un <strong>sistema de gestión escolar</strong> desarrollado en
   <li>Instalar dependencias:
     <pre><code>npm install</code></pre>
   </li>
-  <li>Configurar variables en <code>.env</code>:
+  <li>Actualmente las variables de entorno no estan disponibles.</code>:
     <pre><code>PORT=3000
-JWT_SECRET=tu_clave_secreta
-DB_HOST=localhost
-DB_USER=root
-DB_PASS=
-DB_NAME=escuela</code></pre>
+</pre>
   </li>
   <li>Iniciar servidor:
     <pre><code>npm start (o npm run dev)</code></pre>
@@ -143,13 +139,8 @@ This project is a <strong>school management system</strong> built with <strong>N
   <li>Install dependencies:
     <pre><code>npm install</code></pre>
   </li>
-  <li>Configure environment variables in <code>.env</code>:
-    <pre><code>PORT=3000
-JWT_SECRET=your_secret_key
-DB_HOST=localhost
-DB_USER=root
-DB_PASS=
-DB_NAME=school</code></pre>
+  <li>Environment variables are currently not available.:
+   
   </li>
   <li>Start the server:
     <pre><code>npm start</code></pre>
